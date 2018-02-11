@@ -7,6 +7,9 @@ import json
 from cryptography import x509
 import binascii
 from flask import Flask,abort
+from werkzeug.contrib.cache import SimpleCache
+
+cache = SimpleCache()
 
 app = Flask(__name__)
 
@@ -86,6 +89,14 @@ def empty():
 
 @app.route("/<host>:<int:port>")
 @app.route("/<host>")
+def cache_lookup(host,port=443):
+    cachekey = host + ":" + str(port)
+    data = cache.get(cachekey)
+    if data is None:
+        data = lookup(host,port)
+        cache.set(cachekey, data, timeout=5*60)
+    return data
+
 def lookup(host,port=443):
     try:
         ctx = SSL.Context(SSL.SSLv23_METHOD) # Autonegotiating including TLS

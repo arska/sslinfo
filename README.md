@@ -183,3 +183,5 @@ returns certificate information, like:
 }
 
 See a live example at https://sslinfo-aarno-srf2spotify.appuioapp.ch/vshn.ch
+
+Answers are cached for 5 minutes
