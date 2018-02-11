@@ -181,3 +181,5 @@ returns certificate information, like:
     "server_name": "vshn.ch",
     "state_string": "SSL negotiation finished successfully"
 }
+
+See a live example at https://sslinfo-aarno-srf2spotify.appuioapp.ch/vshn.ch
