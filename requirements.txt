@@ -8,6 +8,7 @@ idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+prometheus-client==0.1.1
 pycparser==2.18
 pyOpenSSL==17.5.0
 six==1.11.0

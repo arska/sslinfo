@@ -6,12 +6,20 @@ from OpenSSL import SSL
 import json
 from cryptography import x509
 import binascii
-from flask import Flask,abort
+from flask import Flask, abort, Response, request
+from prometheus_client import Histogram, Counter, Summary, Gauge, REGISTRY, generate_latest
+import os
+import time
 from werkzeug.contrib.cache import SimpleCache
 
 cache = SimpleCache()
 
 app = Flask(__name__)
+FLASK_REQUEST_LATENCY = Histogram('flask_request_latency_seconds', 'Flask Request Latency', ['method', 'endpoint'])
+FLASK_REQUEST_COUNT = Counter('flask_request_count', 'Flask Request Count', ['method', 'endpoint', 'http_status'])
+FLASK_REQUEST_SIZE = Gauge('flask_request_size_bytes', 'Flask Response Size', ['method', 'endpoint', 'http_status'])
+update_time = Summary('update_seconds', 'Time spent loading data upstream')
+request_bytes = Gauge('request_bytes', 'proxied file size', ['endpoint'])
 
 def dumpname(x):
     r = {}
@@ -83,6 +91,10 @@ def dumpcert(x):
             r[e.oid._name] = re
     return r
 
+@app.route('/metrics')
+def metrics():
+    return generate_latest(REGISTRY)
+
 @app.route("/")
 def empty():
     return ""
@@ -97,6 +109,7 @@ def cache_lookup(host,port=443):
         cache.set(cachekey, data, timeout=5*60)
     return data
 
+@update_time.time()
 def lookup(host,port=443):
     try:
         ctx = SSL.Context(SSL.SSLv23_METHOD) # Autonegotiating including TLS
@@ -125,5 +138,18 @@ def lookup(host,port=443):
     except:
         abort(400)
 
+def before_request():
+    request.start_time = time.time()
+
+def after_request(response):
+    request_latency = max(time.time() - request.start_time, 0) # time can go backwards...
+    FLASK_REQUEST_LATENCY.labels(request.method, request.path).observe(request_latency)
+    FLASK_REQUEST_SIZE.labels(request.method, request.path, response.status_code).set(len(response.data))
+    FLASK_REQUEST_COUNT.labels(request.method, request.path, response.status_code).inc()
+    return response
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    app.before_request(before_request)
+    app.after_request(after_request)
+    app.run(host='0.0.0.0',port=os.environ.get('listenport', 8080))
+
