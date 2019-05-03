@@ -12,4 +12,4 @@ prometheus-client==0.1.1
 pycparser==2.18
 pyOpenSSL==17.5.0
 six==1.11.0
-Werkzeug==0.14.1
+Werkzeug==0.15.2
