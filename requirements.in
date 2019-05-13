@@ -1,0 +1,4 @@
+flask
+prometheus-client
+pyopenssl
+certifi
