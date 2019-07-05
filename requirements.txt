@@ -9,7 +9,7 @@ certifi==2019.3.9
 cffi==1.12.3              # via cryptography
 click==7.0                # via flask
 cryptography==2.6.1       # via pyopenssl
-flask==1.0.2
+flask==1.1.0
 itsdangerous==1.1.0       # via flask
 jinja2==2.10.1            # via flask
 markupsafe==1.1.1         # via jinja2
