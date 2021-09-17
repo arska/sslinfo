@@ -1,28 +1,21 @@
-import ssl
-import socket
-import sys
-
-# import certifi
-from OpenSSL import SSL
-import json
-from cryptography import x509
 import binascii
-from flask import Flask, abort, Response, request
-from prometheus_client import (
-    Histogram,
-    Counter,
-    Summary,
-    Gauge,
-    REGISTRY,
-    generate_latest,
-)
+import json
 import os
+import socket
+import ssl
+import sys
 import time
-from werkzeug.contrib.cache import SimpleCache
 
-cache = SimpleCache()
+from cryptography import x509
+from flask import Flask, Response, abort, request
+from flask_caching import Cache
+from OpenSSL import SSL
+from prometheus_client import (REGISTRY, Counter, Gauge, Histogram, Summary,
+                               generate_latest)
 
 app = Flask(__name__)
+cache = Cache(app, config={"CACHE_TYPE": "SimpleCache"})
+
 FLASK_REQUEST_LATENCY = Histogram(
     "flask_request_latency_seconds", "Flask Request Latency", ["method", "endpoint"]
 )
