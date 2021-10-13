@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-cffi==1.14.6              # via cryptography
+cffi==1.15.0              # via cryptography
 click==8.0.3              # via flask
 cryptography==3.4.8       # via pyopenssl
 dataclasses==0.8          # via werkzeug
