@@ -14,7 +14,7 @@ importlib-metadata==4.11.3  # via click
 itsdangerous==2.1.2       # via flask
 jinja2==3.1.1             # via flask
 markupsafe==2.1.1         # via jinja2
-prometheus-client==0.13.1
+prometheus-client==0.14.0
 pycparser==2.21           # via cffi
 pyopenssl==20.0.1
 six==1.16.0               # via pyopenssl
