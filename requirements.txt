@@ -8,7 +8,7 @@ cffi==1.15.1              # via cryptography
 click==8.1.3              # via flask
 cryptography==39.0.0       # via pyopenssl
 dataclasses==0.8          # via werkzeug
-flask-caching==1.11.1
+flask-caching==2.0.2
 flask==2.2.2
 importlib-metadata==6.0.0  # via click
 itsdangerous==2.1.2       # via flask
