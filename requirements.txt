@@ -19,5 +19,5 @@ pycparser==2.21           # via cffi
 pyopenssl==23.0.0
 six==1.16.0               # via pyopenssl
 typing-extensions==4.4.0  # via importlib-metadata
-werkzeug==2.2.2           # via flask
+werkzeug==2.2.3           # via flask
 zipp==3.13.0               # via importlib-metadata
