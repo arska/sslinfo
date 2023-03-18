@@ -10,7 +10,7 @@ cryptography==39.0.2       # via pyopenssl
 dataclasses==0.8          # via werkzeug
 flask-caching==2.0.2
 flask==2.2.3
-importlib-metadata==6.0.0  # via click
+importlib-metadata==6.1.0  # via click
 itsdangerous==2.1.2       # via flask
 jinja2==3.1.2             # via flask
 markupsafe==2.1.2         # via jinja2
